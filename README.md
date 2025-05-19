@@ -59,4 +59,4 @@ A powerful Chrome extension that adds download buttons to all images on web page
 
 ## License
 
-[Your License Here]
+MIT
