@@ -3,7 +3,7 @@
   "name": "Image Downloader",
   "version": "1.0",
   "description": "Adds download buttons to images for one-click downloading",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting", "storage"],
   "action": {
     "default_popup": "popup.html",
     "default_title": "Image Downloader"
@@ -19,4 +19,5 @@
     "service_worker": "background.js"
   }
 }
+
 

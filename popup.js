@@ -1,5 +1,54 @@
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('images-container');
+  const domainToggle = document.getElementById('domain-toggle');
+  const toggleStatus = document.getElementById('toggle-status');
+  const currentDomainSpan = document.getElementById('current-domain');
+  let currentDomain = '';
+  
+  // Get current tab's domain
+  chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+    const url = new URL(tabs[0].url);
+    currentDomain = url.hostname;
+    currentDomainSpan.textContent = `Current domain: ${currentDomain}`;
+    
+    // Check if domain is in disabled list
+    chrome.storage.sync.get(['disabledDomains'], function(result) {
+      const disabledDomains = result.disabledDomains || [];
+      domainToggle.checked = !disabledDomains.includes(currentDomain);
+      updateToggleStatus();
+    });
+  });
+  
+  // Handle domain toggle
+  domainToggle.addEventListener('change', () => {
+    chrome.storage.sync.get(['disabledDomains'], function(result) {
+      let disabledDomains = result.disabledDomains || [];
+      
+      if (domainToggle.checked) {
+        // Enable for this domain (remove from disabled list)
+        disabledDomains = disabledDomains.filter(domain => domain !== currentDomain);
+      } else {
+        // Disable for this domain (add to disabled list)
+        if (!disabledDomains.includes(currentDomain)) {
+          disabledDomains.push(currentDomain);
+        }
+      }
+      
+      // Save updated list
+      chrome.storage.sync.set({disabledDomains: disabledDomains}, function() {
+        updateToggleStatus();
+        
+        // Reload current tab to apply changes
+        chrome.tabs.reload();
+      });
+    });
+  });
+  
+  function updateToggleStatus() {
+    toggleStatus.textContent = domainToggle.checked ? 
+      "Enabled for this domain" : 
+      "Disabled for this domain";
+  }
   
   // Request images from the active tab
   chrome.runtime.sendMessage({action: "getImages"}, (response) => {
@@ -58,4 +107,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
 

@@ -161,11 +161,25 @@ function getImageFilename(url) {
   return filename || 'image.jpg';
 }
 
+// Check if extension is enabled for current domain before adding buttons
+function checkDomainAndAddButtons() {
+  const currentDomain = window.location.hostname;
+  
+  chrome.storage.sync.get(['disabledDomains'], function(result) {
+    const disabledDomains = result.disabledDomains || [];
+    
+    // If domain is not in disabled list, add buttons
+    if (!disabledDomains.includes(currentDomain)) {
+      addDownloadButtons();
+    }
+  });
+}
+
 // Run more frequently to catch all images
-setTimeout(addDownloadButtons, 500);
-setTimeout(addDownloadButtons, 1000);
-setTimeout(addDownloadButtons, 2000);
-setInterval(addDownloadButtons, 3000); // Run every 3 seconds
+setTimeout(checkDomainAndAddButtons, 500);
+setTimeout(checkDomainAndAddButtons, 1000);
+setTimeout(checkDomainAndAddButtons, 2000);
+setInterval(checkDomainAndAddButtons, 3000); // Run every 3 seconds
 
 // Use MutationObserver to handle dynamically loaded images
 const observer = new MutationObserver(mutations => {
@@ -193,7 +207,7 @@ const observer = new MutationObserver(mutations => {
   });
   
   if (hasNewImages) {
-    setTimeout(addDownloadButtons, 200);
+    setTimeout(checkDomainAndAddButtons, 200);
   }
 });
 
@@ -204,14 +218,15 @@ observer.observe(document.body, {
 
 // Re-run when page is fully loaded
 window.addEventListener('load', () => {
-  setTimeout(addDownloadButtons, 1000);
+  setTimeout(checkDomainAndAddButtons, 1000);
 });
 
 // Re-run after a longer delay to catch lazy-loaded images
-setTimeout(addDownloadButtons, 3000);
+setTimeout(checkDomainAndAddButtons, 3000);
 
 // Re-run periodically to catch slider changes and late-loading content
-setInterval(addDownloadButtons, 5000);
+setInterval(checkDomainAndAddButtons, 5000);
+
 
 
 

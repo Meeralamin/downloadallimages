@@ -12,6 +12,7 @@ A powerful Chrome extension that adds download buttons to all images on web page
 - Preserves original filenames when downloading
 - Handles dynamically loaded images through MutationObserver
 - Works across all websites
+- Enable/disable functionality per domain
 
 ## Installation
 
@@ -35,6 +36,12 @@ A powerful Chrome extension that adds download buttons to all images on web page
 - A popup will display a grid of all images on the current page
 - Click the download button on any image in the grid to save it
 
+### Domain Control
+
+- In the popup, use the toggle switch to enable or disable the extension for the current domain
+- Your preferences are saved and will be remembered when you revisit the site
+- This allows you to disable the extension on sites where you don't need it
+
 ## Files Overview
 
 - `manifest.json`: Extension configuration and permissions
@@ -51,11 +58,13 @@ A powerful Chrome extension that adds download buttons to all images on web page
 - Positions download buttons using fixed positioning with maximum z-index
 - Handles window resize and scroll events to maintain button positioning
 - Extracts filenames from image URLs for better download experience
+- Uses Chrome's Storage API to save domain preferences
 
 ## Permissions
 
 - `activeTab`: Access to the currently active tab
 - `scripting`: Ability to execute scripts in web pages
+- `storage`: Store domain preferences
 
 ## License
 
