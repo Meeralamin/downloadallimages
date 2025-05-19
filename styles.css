@@ -1,0 +1,64 @@
+.img-download-btn {
+  background-color: #4285f4;
+  color: white;
+  border-radius: 3px;
+  width: 30px;
+  height: 30px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none;
+  opacity: 1 !important; /* Force visibility */
+  z-index: 2147483647 !important; /* Maximum z-index */
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5) !important;
+  pointer-events: auto !important;
+  position: fixed !important; /* Use fixed positioning */
+}
+
+.img-download-btn:hover {
+  background-color: #2b6edb;
+  transform: scale(1.1);
+}
+
+/* Remove the hover-specific class since buttons should always be visible */
+.img-hover-btn {
+  opacity: 1 !important;
+}
+
+.bg-image-btn {
+  top: 10px !important;
+  right: 10px !important;
+  left: auto !important;
+}
+
+.img-download-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: white;
+  display: block !important;
+}
+
+/* Ensure all buttons are visible */
+.img-hover-btn {
+  opacity: 1 !important;
+}
+
+.bg-image-btn {
+  top: 10px !important;
+  right: 10px !important;
+  left: auto !important;
+  position: absolute;
+  opacity: 1 !important; /* Force visibility with !important */
+}
+
+.img-download-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: white;
+}
+
+
+
+
+
